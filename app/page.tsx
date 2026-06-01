@@ -379,25 +379,25 @@ if (archivePanels.length) {
 }
 
       if (!isMobile) {
-        const testimonialTrack =
-          document.querySelector<HTMLElement>(".testimonial-track");
+  const testimonialTrack =
+    document.querySelector<HTMLElement>(".testimonial-track");
 
-        if (testimonialTrack) {
-          gsap.to(testimonialTrack, {
-            x: () => -(testimonialTrack.scrollWidth - window.innerWidth),
-            ease: "none",
-            scrollTrigger: {
-              trigger: ".testimonial-pin",
-              start: "top top",
-              end: () => `+=${testimonialTrack.scrollWidth - window.innerWidth}`,
-              scrub: 1,
-              pin: true,
-              anticipatePin: 1,
-              invalidateOnRefresh: true,
-            },
-          });
-        }
-      }
+  if (testimonialTrack) {
+    gsap.to(testimonialTrack, {
+      x: () => -(testimonialTrack.scrollWidth - window.innerWidth + 96),
+      ease: "none",
+      scrollTrigger: {
+        trigger: ".testimonial-pin",
+        start: "top top",
+        end: () => `+=${testimonialTrack.scrollWidth - window.innerWidth + 96}`,
+        scrub: 1,
+        pin: true,
+        anticipatePin: 1,
+        invalidateOnRefresh: true,
+      },
+    });
+  }
+}
 
       gsap.utils.toArray<HTMLElement>(".reveal").forEach((el) => {
         gsap.fromTo(
@@ -669,33 +669,60 @@ function Archive() {
 
 function Testimonials() {
   return (
-    <section className="testimonial-pin relative overflow-hidden bg-[#f3eeee] py-24 md:h-screen md:py-0">
-      <div className="absolute left-5 top-20 z-10 md:left-16">
-        <p className="text-xs uppercase tracking-[0.35em] text-black/35">
-          Few words from clients
-        </p>
-      </div>
+    <section className="testimonial-pin relative overflow-hidden bg-[#111] text-white md:h-screen">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.08),transparent_30%)]" />
 
-      <div className="testimonial-track flex flex-col gap-8 px-5 pt-28 md:h-screen md:w-max md:flex-row md:items-center md:gap-10 md:px-16 md:pt-0">
-        {testimonials.map((quote, index) => (
-          <div
-            key={quote}
-            className="testimonial-card flex min-h-[320px] w-full flex-shrink-0 flex-col justify-between rounded-[2rem] bg-white p-9 shadow-xl md:h-[390px] md:w-[520px] md:p-12"
-          >
-            <p className="text-6xl text-black/15">“</p>
-
-            <p className="text-2xl font-light leading-relaxed tracking-[-0.03em]">
-              {quote}
+      <div className="relative z-10 flex min-h-screen flex-col justify-center px-5 py-24 md:px-16 md:py-0">
+        <div className="mb-14 flex flex-col justify-between gap-6 md:flex-row md:items-end">
+          <div>
+            <p className="text-xs uppercase tracking-[0.35em] text-white/35">
+              Client Notes
             </p>
-
-            <div className="flex items-center justify-between border-t border-black/10 pt-5">
-              <p className="text-xs uppercase tracking-[0.25em] text-black/35">
-                Client 0{index + 1}
-              </p>
-              <ArrowUpRight size={18} />
-            </div>
+            <h2 className="mt-6 max-w-3xl text-5xl font-light leading-tight tracking-[-0.07em] md:text-8xl">
+              What teams say after launch.
+            </h2>
           </div>
-        ))}
+
+          <p className="max-w-sm text-sm leading-7 text-white/45">
+            Selected responses from teams using AI workflows, dashboards, and automation systems.
+          </p>
+        </div>
+
+        <div className="testimonial-track flex flex-col gap-5 md:w-max md:flex-row md:gap-6">
+          {testimonials.map((quote, index) => (
+            <article
+              key={quote}
+              className="testimonial-card group relative flex min-h-[360px] w-full flex-shrink-0 flex-col justify-between overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-8 backdrop-blur-xl transition md:w-[440px]"
+            >
+              <div className="absolute right-6 top-6 text-8xl font-light leading-none text-white/5">
+                0{index + 1}
+              </div>
+
+              <div>
+                <p className="mb-8 text-xs uppercase tracking-[0.28em] text-white/35">
+                  Client 0{index + 1}
+                </p>
+
+                <p className="text-2xl font-light leading-snug tracking-[-0.04em]">
+                  “{quote}”
+                </p>
+              </div>
+
+              <div className="mt-10 flex items-center justify-between border-t border-white/10 pt-5">
+                <div>
+                  <p className="text-sm text-white/70">Product Team</p>
+                  <p className="mt-1 text-xs uppercase tracking-[0.22em] text-white/30">
+                    AI / SaaS
+                  </p>
+                </div>
+
+                <span className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-black transition group-hover:rotate-45">
+                  <ArrowUpRight size={18} />
+                </span>
+              </div>
+            </article>
+          ))}
+        </div>
       </div>
     </section>
   );
